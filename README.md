@@ -3,7 +3,7 @@
 Hexa is a modern, user-friendly web application designed to fetch and display information about FiveM servers. With its sleek interface and powerful features, Hexa makes it easy for server administrators and players to access crucial server data at a glance.
 
 ## Live Test Site
-https://h3x44.github.io/FivemFetcher
+[Website](https://hh3x4.github.io/FivemFetcher/)
 
 ## Features
 
