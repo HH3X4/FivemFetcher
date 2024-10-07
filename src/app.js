@@ -1,4 +1,5 @@
 const { useState, useEffect } = React;
+const PlayerChart = window.PlayerChart;
 
 function App() {
   const [serverData, setServerData] = useState(null);
