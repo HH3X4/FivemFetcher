@@ -23,12 +23,12 @@ Hexa is a modern, user-friendly web application designed to fetch and display in
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/hexa-fivem-fetcher.git
+   git clone https://github.com/h3X44/FivemFetcher.git
    ```
 
 2. Navigate to the project directory:
    ```
-   cd hexa-fivem-fetcher
+   cd FivemFetcher
    ```
 
 3. Open the `index.html` file in your preferred web browser.
