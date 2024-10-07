@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexa - FiveM Server Fetcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="src/styles/index.css">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel" src="src/utils/api.js"></script>
+    <script type="text/babel" src="src/components/ServerInfo.js"></script>
+    <script type="text/babel" src="src/components/PlayerList.js"></script>
+    <script type="text/babel" src="src/components/PlayerChart.js"></script>
+    <script type="text/babel" src="src/components/SearchHistory.js"></script>
+    <script type="text/babel" src="src/components/LoadingSpinner.js"></script>
+    <script type="text/babel" src="src/components/ResourceList.js"></script>
+    <script type="text/babel" src="src/components/ServerRules.js"></script>
+    <script type="text/babel" src="src/components/ServerPerformance.js"></script>
+    <script type="text/babel" src="src/app.js"></script>
+    <script type="text/babel">
+        ReactDOM.render(React.createElement(App), document.getElementById('root'));
+    </script>
+</body>
+</html>
