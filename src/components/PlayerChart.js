@@ -1,83 +1,74 @@
-const React = window.React;
-const { useState, useMemo } = React;
+const { useEffect, useRef } = React;
+const Chart = window.Chart;
 
-const PlayerList = ({ players, dataSource }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('name');
+function PlayerChart({ historicalData }) {
+  const chartRef = useRef(null);
+  const chartInstance = useRef(null);
 
-  const filteredAndSortedPlayers = useMemo(() => {
-    return players
-      .filter(player => 
-        player.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .sort((a, b) => {
-        if (sortBy === 'name') {
-          return a.name.localeCompare(b.name);
+  useEffect(() => {
+    if (chartRef.current && historicalData.length > 0) {
+      const ctx = chartRef.current.getContext('2d');
+      
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+
+      chartInstance.current = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: historicalData.map(data => new Date(data.timestamp).toLocaleTimeString()),
+          datasets: [{
+            label: 'Player Count',
+            data: historicalData.map(data => data.playerCount),
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.1,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Player Count History'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Number of Players'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Time'
+              }
+            }
+          }
         }
-        if (sortBy === 'id') {
-          return a.id - b.id;
-        }
-        return 0;
       });
-  }, [players, searchTerm, sortBy]);
-
-  const getIdentifierLink = (identifier) => {
-    const [type, id] = identifier.split(':');
-    switch (type) {
-      case 'steam':
-        return `https://steamcommunity.com/profiles/${BigInt(`0x${id}`).toString()}`;
-      case 'discord':
-        return `https://discordapp.com/users/${id}`;
-      case 'xbl':
-        return `https://account.xbox.com/en-us/profile?gamertag=${id}`;
-      case 'live':
-        return `https://account.xbox.com/en-us/profile?gamertag=${id}`;
-      default:
-        return null;
     }
-  };
+
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, [historicalData]);
 
   return (
-    <div className="player-list">
-      <h3>Players ({players.length})</h3>
-      <input
-        type="text"
-        placeholder="Search players..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="player-search"
-      />
-      <div className="sort-buttons">
-        <button onClick={() => setSortBy('name')} className={sortBy === 'name' ? 'active' : ''}>Sort by Name</button>
-        <button onClick={() => setSortBy('id')} className={sortBy === 'id' ? 'active' : ''}>Sort by ID</button>
-      </div>
-      <ul className="player-grid">
-        {filteredAndSortedPlayers.map((player, index) => (
-          <li key={index} className="player-card">
-            <h4 className="player-name">{player.name}</h4>
-            <div className="player-id">ID: {player.id}</div>
-            <div className="player-identifiers">
-              <strong>Identifiers:</strong>
-              <ul>
-                {player.identifiers.map((identifier, idx) => {
-                  const link = getIdentifierLink(identifier);
-                  return (
-                    <li key={idx}>
-                      {link ? (
-                        <a href={link} target="_blank" rel="noopener noreferrer">{identifier}</a>
-                      ) : (
-                        identifier
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div className="player-chart">
+      <canvas ref={chartRef}></canvas>
     </div>
   );
-};
+}
 
-window.PlayerList = PlayerList;
+window.PlayerChart = PlayerChart;
